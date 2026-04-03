@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Mehditerranée — Cuisine Méditerranéenne · Forbach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & VARIABLES ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       oklch(0.985 0.008 85);
+      --espresso: oklch(0.22 0.04 55);
+      --ocre:     oklch(0.62 0.12 65);
+      --or:       oklch(0.72 0.1 75);
+      --creme:    oklch(0.97 0.012 85);
+      --dark:     oklch(0.14 0.025 55);
+      --muted:    oklch(0.45 0.02 55);
+      --border:   oklch(0.88 0.015 75);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--espresso);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; line-height: 1.1; }
+
+    a { text-decoration: none; color: inherit; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ── CONTAINER ── */
+    .container {
+      width: 100%; max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+    @media (min-width: 640px)  { .container { padding: 0 2rem; } }
+    @media (min-width: 1024px) { .container { padding: 0 3rem; } }
+
+    /* ── UTILITIES ── */
+    .deco-line { display: inline-block; width: 3rem; height: 2px; background: var(--ocre); flex-shrink: 0; }
+    .label     { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; color: var(--ocre); }
+    .serif-i   { font-family: 'DM Serif Display', serif; font-style: italic; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .875rem 2rem;
+      font-family: 'DM Sans', sans-serif; font-size: .875rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      border: none; cursor: pointer; transition: background .25s, transform .2s;
+    }
+    .btn-dark  { background: var(--espresso); color: var(--creme); }
+    .btn-dark:hover  { background: var(--ocre); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; border: 1.5px solid var(--creme); color: var(--creme); }
+    .btn-ghost:hover { background: var(--creme); color: var(--espresso); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--espresso); color: var(--espresso); }
+    .btn-outline:hover { background: var(--espresso); color: var(--creme); }
+
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .4rem 1rem; border-radius: 2rem;
+      font-size: .8rem; font-weight: 500;
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.85)} }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      transition: background .4s, box-shadow .4s;
+    }
+    header.scrolled {
+      background: oklch(0.985 0.008 85 / .97);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 4rem;
+    }
+    @media (min-width: 768px) { .header-inner { height: 5rem; } }
+
+    .logo-name  { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--espresso); }
+    .logo-sub   { font-size: .625rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ocre); margin-top: .2rem; }
+    @media (min-width: 768px) { .logo-name { font-size: 1.5rem; } }
+
+    nav { display: none; gap: 2rem; }
+    @media (min-width: 768px) { nav { display: flex; } }
+
+    .nav-link {
+      position: relative; font-size: .875rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase; color: var(--espresso);
+      transition: color .25s;
+    }
+    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1.5px; background:var(--ocre); transition:width .3s; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:hover { color: var(--ocre); }
+
+    .header-right { display: none; align-items: center; gap: 1rem; }
+    @media (min-width: 768px) { .header-right { display: flex; } }
+
+    .menu-btn { display: flex; background: none; border: none; cursor: pointer; padding: .5rem; }
+    @media (min-width: 768px) { .menu-btn { display: none; } }
+
+    /* Mobile menu */
+    #mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 40;
+      background: var(--bg); padding-top: 5rem;
+    }
+    #mobile-menu.open { display: flex; flex-direction: column; }
+    #mobile-menu nav { display: flex; flex-direction: column; padding: 2rem 0; gap: 0; }
+    #mobile-menu .nav-link { padding: 1rem 0; border-bottom: 1px solid var(--border); font-size: 1.1rem; font-family: 'DM Serif Display', serif; }
+
+    /* Status bar under header */
+    .status-bar {
+      padding: .5rem 0; border-top: 1px solid;
+      font-size: .75rem; font-weight: 500; text-align: center;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+    header.scrolled .status-bar { opacity: 1; pointer-events: auto; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: flex-end; overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://d2xsxph8kpxj0f.cloudfront.net/310519663440927873/QnKLgBRk7wTy9GoqRTcndE/mehditerranee_day_99254003.jpg') center 30% / cover no-repeat;
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, oklch(0 0 0/.05) 0%, oklch(0 0 0/.2) 35%, oklch(0 0 0/.78) 100%);
+    }
+    .hero-watermark {
+      position: absolute; top: 0; right: 2rem;
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(200px,30vw,400px);
+      line-height: .8; color: transparent;
+      -webkit-text-stroke: 1px oklch(1 0 0/.08);
+      user-select: none; pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 10; width: 100%; padding-bottom: 5rem; }
+    @media (min-width: 768px) { .hero-content { padding-bottom: 7rem; } }
+
+    .hero-tag { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
+    .hero-tag span { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; color: oklch(0.85 0.06 75); }
+
+    .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); color: var(--creme); max-width: 36rem; margin-bottom: 1.5rem; }
+    .hero-sub { font-size: 1rem; font-weight: 300; line-height: 1.7; color: oklch(0.88 0.01 85); max-width: 32rem; margin-bottom: 2.5rem; }
+
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+    .scroll-arrow {
+      position: absolute; bottom: 2rem; right: 2rem; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: oklch(0.88 0.01 85); font-size: .625rem; letter-spacing: .15em; text-transform: uppercase;
+    }
+    .scroll-arrow svg { animation: bounce 1.5s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+
+    /* ── STATUS BANNER ── */
+    #status-banner { padding: 1rem 0; border-top: 1px solid; border-bottom: 1px solid; }
+    .banner-inner { display: flex; align-items: center; justify-content: center; gap: .75rem; flex-wrap: wrap; }
+    .banner-link { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; flex-shrink: 0; }
+
+    /* ── DAILY RHYTHM ── */
+    #daily-rhythm { padding: 6rem 0 9rem; }
+    @media (min-width: 768px) { #daily-rhythm { padding: 9rem 0; } }
+
+    .section-header { margin-bottom: 4rem; }
+    @media (min-width: 768px) { .section-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 6rem; } }
+
+    .section-kicker { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+    .section-title { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--espresso); }
+    .section-note { font-size: .875rem; font-weight: 300; line-height: 1.7; max-width: 20rem; color: var(--muted); }
+
+    .services-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 768px) { .services-grid { grid-template-columns: 1fr 1fr; } }
+
+    .service-card {
+      position: relative; overflow: hidden; border: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    .card-number {
+      position: absolute; top: 1rem; right: 1.5rem;
+      font-family: 'DM Serif Display', serif; font-size: 6rem; line-height: 1;
+      color: transparent; pointer-events: none; user-select: none;
+      transition: transform .5s;
+    }
+    .service-card:hover .card-number { transform: scale(1.1); }
+
+    .card-icon-row { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
+    .card-icon { width: 2.5rem; height: 2.5rem; display: flex; align-items: center; justify-content: center; }
+    .card-period { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; }
+    .card-time   { font-family: 'DM Serif Display', serif; font-size: 1.125rem; color: var(--espresso); }
+    .card-title  { font-size: 1.5rem; color: var(--espresso); margin-bottom: .25rem; }
+    @media (min-width: 768px) { .card-title { font-size: 1.75rem; } }
+    .card-sub    { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1rem; margin-bottom: 1rem; }
+    .card-desc   { font-size: .875rem; font-weight: 300; line-height: 1.7; color: oklch(0.42 0.02 55); }
+    .card-line   { height: 2px; width: 0; margin-top: 2rem; transition: width .5s; }
+    .service-card:hover .card-line { width: 100%; }
+
+    /* ── HOURS SECTION ── */
+    #horaires {
+      position: relative; overflow: hidden;
+      background: var(--dark);
+    }
+    .night-img {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 45%;
+    }
+    .night-img-bg {
+      position: absolute; inset: 0;
+      background: url('https://d2xsxph8kpxj0f.cloudfront.net/310519663440927873/QnKLgBRk7wTy9GoqRTcndE/mehditerranee_night_8104a6c8.jpg') center / cover no-repeat;
+    }
+    .night-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--dark) 0%, oklch(0.12 0.02 55/.7) 40%, oklch(0.12 0.02 55/.1) 100%);
+    }
+
+    #horaires .inner { position: relative; z-index: 10; padding: 6rem 0; }
+    @media (min-width: 768px) { #horaires .inner { padding: 9rem 0; } }
+
+    .hours-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+    @media (min-width: 768px) { .hours-grid { grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; } }
+
+    .hours-title { font-size: clamp(2rem, 4vw, 3rem); color: var(--creme); margin-bottom: 1.5rem; }
+    .hours-desc  { font-size: .875rem; font-weight: 300; line-height: 1.7; color: oklch(0.75 0.01 85); }
+
+    .status-box {
+      margin: 2.5rem 0; padding: 1.25rem;
+      background: oklch(0.18 0.03 55/.6); border: 1px solid oklch(0.72 0.1 75/.25);
+    }
+    .status-box-label { font-size: .625rem; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; color: var(--or); margin-bottom: .5rem; }
+
+    .contact-items { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-item  { display: flex; align-items: flex-start; gap: 1rem; }
+    .contact-icon  { width: 2.25rem; height: 2.25rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: oklch(0.62 0.12 65/.15); margin-top: .25rem; }
+    .contact-item-label { font-size: .625rem; letter-spacing: .1em; text-transform: uppercase; color: oklch(0.65 0.02 85); margin-bottom: .25rem; }
+    .contact-item-val   { font-size: .875rem; font-weight: 300; color: oklch(0.88 0.01 85); }
+
+    /* Schedule table */
+    .schedule-box {
+      background: oklch(0.18 0.025 55/.85);
+      border: 1px solid oklch(0.72 0.1 75/.2);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+    .schedule-head { padding: 1rem 1.5rem; border-bottom: 1px solid oklch(0.72 0.1 75/.2); }
+    .schedule-head p { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; color: var(--or); }
+    .schedule-row { padding: 1.25rem 1.5rem; border-bottom: 1px solid oklch(0.72 0.1 75/.1); transition: background .2s; }
+    .schedule-row.today { background: oklch(0.62 0.12 65/.12); }
+    .schedule-row-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+    .schedule-day { font-size: .875rem; font-weight: 500; }
+    .today-pill {
+      font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .2rem .6rem; background: oklch(0.62 0.12 65/.2); color: oklch(0.82 0.08 75);
+      border: 1px solid oklch(0.72 0.1 75/.3);
+    }
+    .schedule-times { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .schedule-time-label { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: oklch(0.55 0.02 85); margin-bottom: .25rem; }
+    .schedule-time-val   { font-size: .875rem; }
+    .schedule-note { padding: 1rem 1.5rem; font-size: .75rem; font-style: italic; font-weight: 300; color: oklch(0.52 0.01 85); }
+
+    /* ── INFOS ── */
+    #infos { padding: 5rem 0; background: oklch(0.98 0.001 55); }
+    .infos-title { font-size: clamp(2rem, 4vw, 3rem); text-align: center; margin-bottom: .75rem; color: var(--espresso); }
+    .infos-sub   { text-align: center; font-weight: 300; font-size: 1rem; color: var(--muted); margin-bottom: 4rem; }
+    .infos-grid  { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 640px)  { .infos-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .infos-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .info-card { padding: 1.5rem; border: 1px solid oklch(0.85 0.02 55); background: oklch(0.99 0.001 55); }
+    .info-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.125rem; color: var(--espresso); margin-bottom: 1rem; }
+    .info-card ul { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+    .info-card li { display: flex; align-items: flex-start; gap: .75rem; font-size: .875rem; font-weight: 300; color: var(--muted); }
+    .check { color: oklch(0.6 0.15 55); flex-shrink: 0; margin-top: .15rem; }
+
+    .infos-cta { margin-top: 4rem; padding: 2.5rem; text-align: center; background: var(--espresso); color: var(--creme); }
+    .infos-cta h3 { font-size: 1.5rem; margin-bottom: .75rem; }
+    .infos-cta p  { font-weight: 300; margin-bottom: 1.5rem; }
+
+    /* ── CONTACT ── */
+    #contact { position: relative; overflow: hidden; background: var(--bg); }
+    .contact-bg {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 42%;
+      background: url('https://d2xsxph8kpxj0f.cloudfront.net/310519663440927873/QnKLgBRk7wTy9GoqRTcndE/mehditerranee_day_99254003.jpg') center / cover no-repeat;
+    }
+    .contact-bg-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to left, var(--bg) 0%, oklch(0.985 0.008 85/.3) 50%, transparent 100%);
+    }
+    #contact .inner { position: relative; z-index: 10; padding: 6rem 0; }
+    @media (min-width: 768px) { #contact .inner { padding: 9rem 0; } }
+    .contact-form-wrap { display: flex; justify-content: flex-end; }
+    .contact-form-box  { width: 100%; }
+    @media (min-width: 768px) { .contact-form-box { width: 58%; } }
+
+    .form-title { font-size: clamp(2rem, 4vw, 3rem); color: var(--espresso); margin-bottom: 1rem; }
+    .form-note  { font-size: .875rem; font-weight: 300; line-height: 1.7; color: var(--muted); margin-bottom: 3rem; }
+
+    .form-grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+    @media (min-width: 520px) { .form-grid-2 { grid-template-columns: 1fr 1fr; } }
+    .form-field { margin-bottom: 1.25rem; }
+
+    label {
+      display: block; font-size: .7rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; color: oklch(0.35 0.02 55); margin-bottom: .5rem;
+    }
+    input, select, textarea {
+      width: 100%; padding: .875rem 1rem;
+      background: oklch(0.99 0.004 85); border: 1.5px solid var(--border);
+      font-family: 'DM Sans', sans-serif; font-size: .9rem; color: var(--espresso);
+      outline: none; transition: border-color .2s; border-radius: 0; appearance: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--ocre); }
+    input::placeholder, textarea::placeholder { color: oklch(0.65 0.015 65); }
+
+    .select-wrap { position: relative; }
+    .select-arrow {
+      position: absolute; right: .875rem; top: 50%; transform: translateY(-50%);
+      pointer-events: none; color: var(--ocre);
+    }
+
+    textarea { resize: none; }
+
+    .form-footer { font-size: .75rem; text-align: center; font-weight: 300; color: oklch(0.58 0.015 55); margin-top: .75rem; }
+
+    /* Success state */
+    .form-success { padding: 3rem 2.5rem; text-align: center; background: oklch(0.96 0.015 145); border: 1px solid oklch(0.52 0.08 145/.3); }
+    .form-success svg { margin: 0 auto 1rem; }
+    .form-success h3 { font-size: 1.5rem; color: var(--espresso); margin-bottom: .75rem; }
+    .form-success p  { font-size: .875rem; font-weight: 300; line-height: 1.7; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--dark); }
+    .footer-main { padding: 5rem 0; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 4rem; } }
+
+    .footer-name { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--creme); margin-bottom: .25rem; }
+    .footer-sub  { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; color: var(--or); margin-bottom: 1.5rem; }
+    .footer-desc { font-size: .875rem; font-weight: 300; line-height: 1.7; color: oklch(0.62 0.01 85); margin-bottom: 1.5rem; }
+    .footer-community { display: inline-flex; align-items: center; gap: .5rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--or); }
+
+    .footer-col-label { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; color: var(--or); margin-bottom: 1.5rem; }
+    .footer-hours-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding-bottom: .75rem; border-bottom: 1px solid oklch(0.72 0.1 75/.12); margin-bottom: .75rem; }
+    .footer-day { font-size: .875rem; font-weight: 500; width: 6rem; flex-shrink: 0; }
+    .footer-times { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; }
+    .footer-time  { font-size: .75rem; }
+
+    .footer-contact-item { margin-bottom: 1.25rem; }
+    .footer-contact-lbl  { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: oklch(0.52 0.01 85); margin-bottom: .25rem; }
+    .footer-contact-val  { font-size: .875rem; font-weight: 300; color: oklch(0.78 0.01 85); }
+    .footer-contact-link { font-size: .875rem; font-weight: 300; color: var(--or); transition: opacity .2s; }
+    .footer-contact-link:hover { opacity: .75; }
+
+    .footer-bar { border-top: 1px solid oklch(0.72 0.1 75/.12); padding: 1.25rem 0; display: flex; flex-direction: column; align-items: center; gap: .75rem; }
+    @media (min-width: 640px) { .footer-bar { flex-direction: row; justify-content: space-between; } }
+    .footer-copy { font-size: .75rem; font-weight: 300; color: oklch(0.42 0.01 85); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header id="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="#hero">
+        <div class="logo-name">Le Mehditerranée</div>
+        <div class="logo-sub">Forbach · Cuisine Méditerranéenne</div>
+      </a>
+      <nav>
+        <a href="#hero"          class="nav-link">Accueil</a>
+        <a href="#daily-rhythm"  class="nav-link">Notre Rythme</a>
+        <a href="#horaires"      class="nav-link">Horaires</a>
+        <a href="#contact"       class="nav-link">Contact</a>
+      </nav>
+      <div class="header-right">
+        <span id="header-badge" class="status-badge">
+          <span class="status-dot" id="header-dot"></span>
+          <span id="header-status-text"></span>
+        </span>
+        <a href="#contact" class="btn btn-dark" style="font-size:.75rem;padding:.625rem 1.25rem">Réserver</a>
+      </div>
+      <button class="menu-btn" id="menu-btn" aria-label="Menu">
+        <svg id="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <svg id="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" style="display:none">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="status-bar" id="header-status-bar">
+    <div class="container">
+      <span id="header-bar-text"></span>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div id="mobile-menu">
+  <div class="container">
+    <nav>
+      <a href="#hero"         class="nav-link" onclick="closeMobileMenu()">Accueil</a>
+      <a href="#daily-rhythm" class="nav-link" onclick="closeMobileMenu()">Notre Rythme</a>
+      <a href="#horaires"     class="nav-link" onclick="closeMobileMenu()">Horaires</a>
+      <a href="#contact"      class="nav-link" onclick="closeMobileMenu()">Contact</a>
+    </nav>
+    <div style="padding-top:2rem;display:flex;flex-direction:column;gap:1rem">
+      <span id="mobile-badge" class="status-badge" style="width:fit-content"></span>
+      <a href="#contact" class="btn btn-dark" onclick="closeMobileMenu()" style="text-align:center;justify-content:center">Réserver une table</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section id="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-watermark">M</div>
+  <div class="container hero-content">
+    <div style="max-width:36rem">
+      <div class="hero-tag">
+        <span class="deco-line"></span>
+        <span>59 Av. Saint-Rémy · Forbach</span>
+      </div>
+      <h1 class="hero">
+        La Méditerranée<br>
+        <span class="serif-i" style="color:oklch(0.85 0.08 75)">à Forbach</span>
+      </h1>
+      <p class="hero-sub">
+        Une cuisine authentique qui célèbre les saveurs du bassin méditerranéen.
+        Lumière naturelle le midi, élégance intime le soir.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-dark">Réserver une table</a>
+        <a href="#daily-rhythm" class="btn btn-ghost">Découvrir nos services</a>
+      </div>
+    </div>
+  </div>
+  <a href="#daily-rhythm" class="scroll-arrow">
+    <span>Découvrir</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </a>
+</section>
+
+<!-- ══════════════════ STATUS BANNER ══════════════════ -->
+<div id="status-banner">
+  <div class="container">
+    <div class="banner-inner">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="banner-icon"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="status-dot" id="banner-dot"></span>
+      <p style="font-size:.875rem;font-weight:500;text-align:center" id="banner-text"></p>
+      <a href="#contact" class="banner-link" id="banner-cta" style="display:none">Réserver →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ DAILY RHYTHM ══════════════════ -->
+<section id="daily-rhythm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-kicker"><span class="deco-line"></span><span class="label">Notre Rythme</span></div>
+        <h2 class="section-title">Chaque moment<br><span class="serif-i" style="color:var(--ocre)">a son caractère</span></h2>
+      </div>
+      <p class="section-note">Du déjeuner d'affaires au festin dominical, chaque service est pensé pour offrir une expérience unique et mémorable.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- 01 -->
+      <div class="service-card reveal" style="background:oklch(0.97 0.015 75);transition-delay:0ms">
+        <div class="card-number" style="-webkit-text-stroke:1.5px oklch(0.62 0.12 65);opacity:.18">01</div>
+        <div style="position:relative;z-index:1">
+          <div class="card-icon-row">
+            <div class="card-icon" style="background:oklch(0.62 0.12 65/.2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.62 0.12 65)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            <div>
+              <p class="card-period" style="color:oklch(0.62 0.12 65)">Mardi — Vendredi</p>
+              <p class="card-time">11h45 — 14h30</p>
+            </div>
+          </div>
+          <h3 class="card-title">Le Déjeuner en Semaine</h3>
+          <p class="card-sub" style="color:oklch(0.62 0.12 65)">Un sanctuaire baigné de soleil</p>
+          <p class="card-desc">Un havre ensoleillé pour le professionnel forbachois et le gourmet décontracté. Service rapide, éclairage naturel à double orientation et un menu qui équilibre légèreté et âme méditerranéenne.</p>
+          <div class="card-line" style="background:oklch(0.62 0.12 65)"></div>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="service-card reveal" style="background:oklch(0.97 0.01 30);transition-delay:120ms">
+        <div class="card-number" style="-webkit-text-stroke:1.5px oklch(0.52 0.16 30);opacity:.18">02</div>
+        <div style="position:relative;z-index:1">
+          <div class="card-icon-row">
+            <div class="card-icon" style="background:oklch(0.52 0.16 30/.2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.52 0.16 30)" stroke-width="2" stroke-linecap="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><path d="M4.22 10.22l1.42 1.42"/><path d="M18.36 11.64l1.42-1.42"/><path d="M4.93 17.07l1.41-1.41"/><path d="M17.66 15.66l1.41 1.41"/></svg>
+            </div>
+            <div>
+              <p class="card-period" style="color:oklch(0.52 0.16 30)">Mardi — Vendredi</p>
+              <p class="card-time">18h30 — 22h00</p>
+            </div>
+          </div>
+          <h3 class="card-title">La Transformation du Soir</h3>
+          <p class="card-sub" style="color:oklch(0.52 0.16 30)">Élégance intime</p>
+          <p class="card-desc">Alors que le soleil se couche sur l'Av. Saint-Rémy, l'atmosphère se transforme en élégance intime. Le moment idéal pour notre Tartare de Bœuf signature ou une spécialité méditerranéenne mijotée.</p>
+          <div class="card-line" style="background:oklch(0.52 0.16 30)"></div>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="service-card reveal" style="background:oklch(0.97 0.008 280);transition-delay:240ms">
+        <div class="card-number" style="-webkit-text-stroke:1.5px oklch(0.42 0.1 280);opacity:.18">03</div>
+        <div style="position:relative;z-index:1">
+          <div class="card-icon-row">
+            <div class="card-icon" style="background:oklch(0.42 0.1 280/.2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.42 0.1 280)" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div>
+              <p class="card-period" style="color:oklch(0.42 0.1 280)">Samedi</p>
+              <p class="card-time">18h30 — 22h30</p>
+            </div>
+          </div>
+          <h3 class="card-title">Le Gala du Samedi Soir</h3>
+          <p class="card-sub" style="color:oklch(0.42 0.1 280)">2 100+ membres en esprit</p>
+          <p class="card-desc">Notre service du soir le plus long. Une atmosphère vibrante et haute en énergie avec plus de 2 100 membres de la communauté en esprit. La réservation est indispensable pour cette nuit de célébration culinaire.</p>
+          <div class="card-line" style="background:oklch(0.42 0.1 280)"></div>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="service-card reveal" style="background:oklch(0.96 0.015 145);transition-delay:360ms">
+        <div class="card-number" style="-webkit-text-stroke:1.5px oklch(0.52 0.06 145);opacity:.18">04</div>
+        <div style="position:relative;z-index:1">
+          <div class="card-icon-row">
+            <div class="card-icon" style="background:oklch(0.52 0.06 145/.2)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.52 0.06 145)" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div>
+              <p class="card-period" style="color:oklch(0.52 0.06 145)">Dimanche</p>
+              <p class="card-time">11h30 — 14h30</p>
+            </div>
+          </div>
+          <h3 class="card-title">La Tradition Dominicale</h3>
+          <p class="card-sub" style="color:oklch(0.52 0.06 145)">Le repas en famille</p>
+          <p class="card-desc">Un début matinal chaleureux pour le festin dominical traditionnel. Nous clôturons la semaine avec un accent sur la famille, des portions généreuses et la "variété éclectique" que Tripadvisor apprécie.</p>
+          <div class="card-line" style="background:oklch(0.52 0.06 145)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ HOURS ══════════════════ -->
+<section id="horaires">
+  <div class="night-img">
+    <div class="night-img-bg"></div>
+    <div class="night-img-overlay"></div>
+  </div>
+  <div class="inner">
+    <div class="container">
+      <div class="hours-grid">
+        <!-- Left -->
+        <div>
+          <div class="reveal">
+            <div class="section-kicker"><span class="deco-line" style="background:var(--or)"></span><span class="label" style="color:var(--or)">Horaires & Localisation</span></div>
+            <h2 class="hours-title">Nous trouver,<br><span class="serif-i" style="color:var(--or)">nous rejoindre</span></h2>
+            <p class="hours-desc">Situé au cœur de Forbach, Le Mehditerranée vous accueille du mardi au dimanche dans une atmosphère qui évolue au fil de la journée.</p>
+          </div>
+
+          <div class="status-box reveal" style="margin-top:2.5rem">
+            <p class="status-box-label">Statut actuel</p>
+            <div style="display:flex;align-items:flex-start;gap:.75rem">
+              <span class="status-dot" id="hours-dot" style="margin-top:.375rem;flex-shrink:0"></span>
+              <p style="font-size:.875rem;line-height:1.6;color:oklch(0.88 0.01 85)" id="hours-status-text"></p>
+            </div>
+          </div>
+
+          <div class="contact-items reveal" style="margin-top:2rem">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p class="contact-item-label">Adresse</p>
+                <p class="contact-item-val">59 Avenue Saint-Rémy<br>57600 Forbach, France</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div>
+                <p class="contact-item-label">Communauté</p>
+                <p class="contact-item-val">2 100+ membres sur les réseaux</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right — Schedule table -->
+        <div class="reveal">
+          <div class="schedule-box" id="schedule-table"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ INFOS ══════════════════ -->
+<section id="infos">
+  <div class="container">
+    <h2 class="infos-title">Infos Pratiques</h2>
+    <p class="infos-sub">Tout ce que vous devez savoir pour visiter Le Mehditerranée</p>
+    <div class="infos-grid">
+      <!-- Cards generated by JS below -->
+    </div>
+    <div class="infos-cta">
+      <h3>Des questions ?</h3>
+      <p>N'hésitez pas à nous contacter directement pour plus d'informations.</p>
+      <a href="#contact" class="btn btn-dark" style="background:oklch(0.6 0.15 55)">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<section id="contact">
+  <div class="contact-bg"><div class="contact-bg-overlay"></div></div>
+  <div class="inner">
+    <div class="container">
+      <div class="contact-form-wrap">
+        <div class="contact-form-box">
+          <div class="reveal">
+            <div class="section-kicker"><span class="deco-line"></span><span class="label">Réservation</span></div>
+            <h2 class="form-title">Réservez<br><span class="serif-i" style="color:var(--ocre)">votre table</span></h2>
+            <p class="form-note">Choisissez votre créneau de service et nous vous confirmerons votre réservation dans les plus brefs délais.</p>
+          </div>
+
+          <div id="form-area" class="reveal">
+            <form id="reservation-form" onsubmit="handleSubmit(event)">
+              <div class="form-grid-2">
+                <div>
+                  <label for="name">Nom complet *</label>
+                  <input type="text" id="name" name="name" required placeholder="Jean Dupont" />
+                </div>
+                <div>
+                  <label for="email">Email *</label>
+                  <input type="email" id="email" name="email" required placeholder="jean@exemple.fr" />
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="phone">Téléphone</label>
+                <input type="tel" id="phone" name="phone" placeholder="+33 3 87 XX XX XX" />
+              </div>
+              <div class="form-field">
+                <label for="service">Créneau de service *</label>
+                <div class="select-wrap">
+                  <select id="service" name="service" required>
+                    <option value="" disabled selected>Choisissez un créneau…</option>
+                    <option value="tue-fri-lunch">Déjeuner en semaine (Mar–Ven, 11h45–14h30)</option>
+                    <option value="tue-fri-dinner">Dîner en semaine (Mar–Ven, 18h30–22h00)</option>
+                    <option value="saturday-dinner">Gala du samedi soir (18h30–22h30) ★</option>
+                    <option value="sunday-lunch">Déjeuner dominical (Dim, 11h30–14h30)</option>
+                  </select>
+                  <span class="select-arrow"><svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+              </div>
+              <div class="form-grid-2">
+                <div>
+                  <label for="date">Date souhaitée *</label>
+                  <input type="date" id="date" name="date" required />
+                </div>
+                <div>
+                  <label for="guests">Nombre de couverts *</label>
+                  <div class="select-wrap">
+                    <select id="guests" name="guests" required>
+                      <option value="" disabled selected>Sélectionner…</option>
+                      <option>1 personne</option><option>2 personnes</option><option>3 personnes</option>
+                      <option>4 personnes</option><option>5 personnes</option><option>6 personnes</option>
+                      <option>7+ personnes (groupe)</option>
+                    </select>
+                    <span class="select-arrow"><svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="message">Message (optionnel)</label>
+                <textarea id="message" name="message" rows="3" placeholder="Allergies, occasion spéciale, demandes particulières…"></textarea>
+              </div>
+              <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;gap:.75rem" id="submit-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Envoyer ma demande de réservation
+              </button>
+              <p class="form-footer">Nous vous répondrons dans les 24 heures. Réservation confirmée par email.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-main">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-name">Le Mehditerranée</div>
+          <div class="footer-sub">Cuisine Méditerranéenne · Forbach</div>
+          <p class="footer-desc">Un voyage culinaire au cœur du bassin méditerranéen, à deux pas de chez vous. Authenticité, générosité et convivialité depuis notre ouverture.</p>
+          <div class="footer-community">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--or)"></span>
+            2 100+ membres de la communauté
+          </div>
+        </div>
+        <div>
+          <p class="footer-col-label">Horaires d'ouverture</p>
+          <div>
+            <div class="footer-hours-row">
+              <span class="footer-day" style="color:oklch(0.82 0.01 85)">Mar — Ven</span>
+              <div class="footer-times">
+                <span class="footer-time" style="color:oklch(0.72 0.01 85)">11h45 – 14h30</span>
+                <span class="footer-time" style="color:oklch(0.72 0.01 85)">18h30 – 22h00</span>
+              </div>
+            </div>
+            <div class="footer-hours-row">
+              <span class="footer-day" style="color:oklch(0.82 0.01 85)">Samedi</span>
+              <div class="footer-times">
+                <span class="footer-time" style="color:oklch(0.42 0.01 85)">—</span>
+                <span class="footer-time" style="color:var(--or)">18h30 – 22h30 ★</span>
+              </div>
+            </div>
+            <div class="footer-hours-row">
+              <span class="footer-day" style="color:oklch(0.82 0.01 85)">Dimanche</span>
+              <div class="footer-times">
+                <span class="footer-time" style="color:oklch(0.72 0.01 85)">11h30 – 14h30</span>
+                <span class="footer-time" style="color:oklch(0.42 0.01 85)">—</span>
+              </div>
+            </div>
+            <div class="footer-hours-row" style="border:none;margin:0;padding:0">
+              <span class="footer-day" style="color:oklch(0.45 0.01 85);font-style:italic">Lundi</span>
+              <div class="footer-times"><span class="footer-time" style="color:oklch(0.45 0.01 85);font-style:italic">Jour de repos</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="footer-col-label">Nous trouver</p>
+          <div class="footer-contact-item">
+            <p class="footer-contact-lbl">Adresse</p>
+            <p class="footer-contact-val">59 Avenue Saint-Rémy<br>57600 Forbach, France</p>
+          </div>
+          <div class="footer-contact-item">
+            <p class="footer-contact-lbl">Réservations</p>
+            <a href="#contact" class="footer-contact-link">Formulaire en ligne →</a>
+          </div>
+          <div class="footer-contact-item">
+            <p class="footer-contact-lbl">Avis</p>
+            <p class="footer-contact-val">Tripadvisor · Google Maps</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <div class="container" style="display:flex;flex-direction:column;gap:.75rem;align-items:center">
+      <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:.5rem">
+        <p class="footer-copy" id="footer-year"></p>
+        <p class="footer-copy">59 Av. Saint-Rémy · Forbach · Moselle</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════ JAVASCRIPT ══════════════════ -->
+<script>
+// ── Date minimum pour le formulaire ──
+document.getElementById('date').min = new Date().toISOString().split('T')[0];
+document.getElementById('footer-year').textContent = `© ${new Date().getFullYear()} Le Mehditerranée · Tous droits réservés`;
+
+// ── Restaurant status ──
+function toMin(h, m) { return h * 60 + m; }
+
+function getStatus(now) {
+  const day = now.getDay();
+  const cur = toMin(now.getHours(), now.getMinutes());
+
+  if (day === 1) return { type:'closed', message:"Nos chefs se reposent aujourd'hui. Rejoignez-nous demain à 11h45.", next:true };
+  if (day === 6) {
+    const s=toMin(18,30), e=toMin(22,30);
+    if (cur>=s && cur<e) return { type:'open', message:'Grand dîner du samedi en cours — Réservation recommandée !' };
+    if (cur>=s-90 && cur<s) { const d=s-cur; return { type:'soon', message:`Ouverture dans ${d<60?d+' min':Math.floor(d/60)+'h'+(d%60?d%60:'')} pour le grand dîner du samedi.`, next:true }; }
+    if (cur>=e) return { type:'closed', message:'Service du samedi terminé. Retrouvez-nous dimanche à 11h30.', next:true };
+    return { type:'closed', message:"Nous ouvrons ce soir à 18h30 pour notre grand dîner.", next:true };
+  }
+  if (day === 0) {
+    const s=toMin(11,30), e=toMin(14,30);
+    if (cur>=s && cur<e) return { type:'open', message:'Déjeuner dominical en service — Bienvenue en famille !' };
+    if (cur>=e) return { type:'closed', message:'Service du dimanche terminé. Retrouvez-nous mardi à 11h45.', next:true };
+    return { type:'closed', message:"Nous ouvrons à 11h30 pour notre déjeuner dominical.", next:true };
+  }
+  if (day>=2 && day<=5) {
+    const ls=toMin(11,45), le=toMin(14,30), ds=toMin(18,30), de=toMin(22,0);
+    if (cur>=ls && cur<le) return { type:'open', message:'Service du déjeuner en cours — Lumière naturelle, âme méditerranéenne.' };
+    if (cur>=ds && cur<de) return { type:'open', message:"Service du dîner en cours — L'atmosphère du soir vous attend." };
+    if (cur>=le && cur<ds) return { type:'closed', message:'Coupure entre les services. Nous rouvrons ce soir à 18h30.', next:true };
+    if (cur>=de) return { type:'closed', message:`Service du soir terminé. À bientôt — ${day===5?'Samedi à 18h30':'Demain à 11h45'}.`, next:true };
+    return { type:'closed', message:"Nous ouvrons aujourd'hui à 11h45 pour le déjeuner.", next:true };
+  }
+  return { type:'closed', message:'Consultez nos horaires.' };
+}
+
+const statusColors = {
+  open:   { bg:'oklch(0.88 0.06 145/.18)', border:'oklch(0.52 0.08 145/.25)', text:'oklch(0.28 0.1 145)',  dot:'#22c55e' },
+  soon:   { bg:'oklch(0.94 0.08 65/.2)',   border:'oklch(0.62 0.1 65/.3)',    text:'oklch(0.38 0.1 65)',   dot:'#f59e0b' },
+  closed: { bg:'oklch(0.96 0.015 30/.15)', border:'oklch(0.52 0.1 30/.2)',    text:'oklch(0.42 0.08 30)',  dot:'#f87171' },
+};
+
+function applyStatus(status) {
+  const c = statusColors[status.type];
+  // Banner
+  const banner = document.getElementById('status-banner');
+  banner.style.background   = c.bg;
+  banner.style.borderColor  = c.border;
+  document.getElementById('banner-text').style.color = c.text;
+  document.getElementById('banner-text').textContent = status.message;
+  document.getElementById('banner-icon').style.stroke = c.text;
+  const dot1 = document.getElementById('banner-dot');
+  dot1.style.background = c.dot;
+  const cta = document.getElementById('banner-cta');
+  cta.style.display = status.next ? 'inline' : 'none';
+  cta.style.color = c.text;
+
+  // Header badge
+  const badge = document.getElementById('header-badge');
+  badge.style.background  = c.bg;
+  badge.style.border      = `1px solid ${c.border}`;
+  badge.style.color       = c.text;
+  document.getElementById('header-dot').style.background = c.dot;
+  document.getElementById('header-status-text').textContent = status.type==='open'?'Ouvert':status.type==='soon'?'Bientôt':'Fermé';
+
+  // Header status bar
+  const sBar = document.getElementById('header-status-bar');
+  sBar.style.background   = c.bg;
+  sBar.style.borderColor  = c.border;
+  sBar.style.color        = c.text;
+  document.getElementById('header-bar-text').textContent = status.message;
+
+  // Mobile badge
+  const mb = document.getElementById('mobile-badge');
+  mb.style.background = c.bg; mb.style.border = `1px solid ${c.border}`; mb.style.color = c.text;
+  mb.innerHTML = `<span class="status-dot" style="background:${c.dot}"></span>${status.message}`;
+
+  // Hours section
+  const hd = document.getElementById('hours-dot');
+  if (hd) hd.style.background = c.dot;
+  const ht = document.getElementById('hours-status-text');
+  if (ht) ht.textContent = status.message;
+}
+
+let currentStatus = getStatus(new Date());
+applyStatus(currentStatus);
+setInterval(() => { currentStatus = getStatus(new Date()); applyStatus(currentStatus); }, 60000);
+
+// ── Schedule table ──
+const schedule = [
+  { day:'Mardi — Vendredi', dayIndex:[2,3,4,5], lunch:'11h45 — 14h30', dinner:'18h30 — 22h00', closed:false },
+  { day:'Samedi',           dayIndex:[6],        lunch:'Fermé le midi', dinner:'18h30 — 22h30', closed:false, gala:true },
+  { day:'Dimanche',         dayIndex:[0],        lunch:'11h30 — 14h30', dinner:'Fermé le soir', closed:false },
+  { day:'Lundi',            dayIndex:[1],        lunch:'Jour de repos',  dinner:'Jour de repos', closed:true },
+];
+
+function buildSchedule() {
+  const today = new Date().getDay();
+  const box = document.getElementById('schedule-table');
+  let html = `<div class="schedule-head"><p>Planning de la semaine</p></div>`;
+  schedule.forEach(row => {
+    const isToday = row.dayIndex.includes(today);
+    const dayColor = isToday ? 'oklch(0.88 0.08 75)' : row.closed ? 'oklch(0.55 0.01 85)' : 'oklch(0.88 0.01 85)';
+    html += `<div class="schedule-row${isToday?' today':''}">
+      <div class="schedule-row-top">
+        <div style="display:flex;align-items:center;gap:.5rem">
+          ${isToday ? `<span style="width:6px;height:6px;border-radius:50%;background:var(--or);flex-shrink:0"></span>` : ''}
+          <p class="schedule-day" style="color:${dayColor}${row.closed?';font-style:italic':''}">${row.day}</p>
+        </div>
+        ${isToday ? `<span class="today-pill">Aujourd'hui</span>` : ''}
+      </div>
+      ${row.closed
+        ? `<p style="font-size:.75rem;font-style:italic;color:oklch(0.52 0.01 85)">Jour de repos — Nos chefs se ressourcent</p>`
+        : `<div class="schedule-times">
+            <div>
+              <p class="schedule-time-label">Déjeuner</p>
+              <p class="schedule-time-val" style="color:${row.lunch.startsWith('Fermé')?'oklch(0.52 0.01 85)':'oklch(0.82 0.02 85)'};${row.lunch.startsWith('Fermé')?'font-style:italic':''}">${row.lunch}</p>
+            </div>
+            <div>
+              <p class="schedule-time-label">Dîner</p>
+              <p class="schedule-time-val" style="color:${row.dinner.startsWith('Fermé')?'oklch(0.52 0.01 85)':row.gala?'oklch(0.82 0.08 75)':'oklch(0.82 0.02 85)'};${row.dinner.startsWith('Fermé')?'font-style:italic':''}">${row.dinner}${row.gala ? ' <span style="font-size:.65rem;color:var(--or)">★ Gala</span>' : ''}</p>
+            </div>
+          </div>`}
+    </div>`;
+  });
+  html += `<div class="schedule-note">Réservation recommandée le samedi soir. Groupes sur demande.</div>`;
+  box.innerHTML = html;
+}
+buildSchedule();
+
+// ── Infos section ──
+const infoData = [
+  { title:'Accessibilité', items:['Parking accessible fauteuils roulants','Entrée accessible fauteuils roulants','Places assises accessibles'] },
+  { title:'Services & Options', items:['Places en terrasse','Repas sur place','Réservations acceptées','Service de table'] },
+  { title:'Spécialités & Offres', items:['Excellents cocktails','Excellent café','Excellents desserts','Grande sélection de vins','Options saines','Alcool, bière, spiritueux'] },
+  { title:'Ambiance & Atmosphère', items:['Décontractée','Cosy','Calme','Romantique','Tendance'] },
+  { title:'Équipements', items:['Bar sur place','Toilettes','Parking gratuit (rue & parking)','Beaucoup de places de parking'] },
+  { title:'Paiements', items:['Cartes de crédit','Cartes de débit','Tickets restaurant','Paiements mobiles NFC','Pluxee'] },
+  { title:'Enfants & Familles', items:['Adapté aux enfants','Chaises hautes disponibles','Menu enfants','Idéal pour les groupes'] },
+  { title:'Moments Populaires', items:['Déjeuner','Dîner','Repas en solo','Catering disponible','Desserts & café'] },
+];
+
+const infosGrid = document.querySelector('.infos-grid');
+infosGrid.innerHTML = infoData.map(cat => `
+  <div class="info-card">
+    <h3>${cat.title}</h3>
+    <ul>${cat.items.map(item => `
+      <li>
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        ${item}
+      </li>`).join('')}
+    </ul>
+  </div>`).join('');
+
+// ── Header scroll ──
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); }, { passive:true });
+
+// ── Hero parallax ──
+const heroBg = document.getElementById('hero-bg');
+window.addEventListener('scroll', () => { heroBg.style.transform = `translateY(${window.scrollY * 0.3}px)`; }, { passive:true });
+
+// ── Mobile menu ──
+const mobileMenu = document.getElementById('mobile-menu');
+const menuBtn    = document.getElementById('menu-btn');
+const iconMenu   = document.getElementById('icon-menu');
+const iconClose  = document.getElementById('icon-close');
+menuBtn.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  iconMenu.style.display  = open ? 'none'  : 'block';
+  iconClose.style.display = open ? 'block' : 'none';
+});
+function closeMobileMenu() {
+  mobileMenu.classList.remove('open');
+  iconMenu.style.display  = 'block';
+  iconClose.style.display = 'none';
+}
+
+// ── Scroll reveal ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Form submit ──
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const name = form.name.value;
+  const serviceLabels = {
+    'tue-fri-lunch':   'Déjeuner en semaine (Mar–Ven, 11h45–14h30)',
+    'tue-fri-dinner':  'Dîner en semaine (Mar–Ven, 18h30–22h00)',
+    'saturday-dinner': 'Gala du samedi soir (18h30–22h30)',
+    'sunday-lunch':    'Déjeuner dominical (Dim, 11h30–14h30)',
+  };
+  const service = serviceLabels[form.service.value] || form.service.value;
+
+  document.getElementById('form-area').innerHTML = `
+    <div class="form-success">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="oklch(0.52 0.08 145)" stroke-width="1.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <h3>Demande envoyée !</h3>
+      <p>Merci, <strong>${name}</strong>. Nous avons bien reçu votre demande de réservation pour le créneau <strong>${service}</strong>. Nous vous contacterons très prochainement.</p>
+      <button class="btn btn-outline" style="margin-top:2rem" onclick="resetForm()">Nouvelle réservation</button>
+    </div>`;
+}
+
+function resetForm() {
+  document.getElementById('form-area').innerHTML = `
+    <form id="reservation-form" onsubmit="handleSubmit(event)">
+      <div class="form-grid-2">
+        <div><label for="name">Nom complet *</label><input type="text" id="name" name="name" required placeholder="Jean Dupont" /></div>
+        <div><label for="email">Email *</label><input type="email" id="email" name="email" required placeholder="jean@exemple.fr" /></div>
+      </div>
+      <div class="form-field"><label for="phone">Téléphone</label><input type="tel" id="phone" name="phone" placeholder="+33 3 87 XX XX XX" /></div>
+      <div class="form-field">
+        <label for="service">Créneau de service *</label>
+        <div class="select-wrap">
+          <select id="service" name="service" required>
+            <option value="" disabled selected>Choisissez un créneau…</option>
+            <option value="tue-fri-lunch">Déjeuner en semaine (Mar–Ven, 11h45–14h30)</option>
+            <option value="tue-fri-dinner">Dîner en semaine (Mar–Ven, 18h30–22h00)</option>
+            <option value="saturday-dinner">Gala du samedi soir (18h30–22h30) ★</option>
+            <option value="sunday-lunch">Déjeuner dominical (Dim, 11h30–14h30)</option>
+          </select>
+          <span class="select-arrow"><svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div><label for="date">Date souhaitée *</label><input type="date" id="date" name="date" required min="${new Date().toISOString().split('T')[0]}" /></div>
+        <div>
+          <label for="guests">Nombre de couverts *</label>
+          <div class="select-wrap">
+            <select id="guests" name="guests" required>
+              <option value="" disabled selected>Sélectionner…</option>
+              <option>1 personne</option><option>2 personnes</option><option>3 personnes</option>
+              <option>4 personnes</option><option>5 personnes</option><option>6 personnes</option>
+              <option>7+ personnes (groupe)</option>
+            </select>
+            <span class="select-arrow"><svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="form-field"><label for="message">Message (optionnel)</label><textarea id="message" name="message" rows="3" placeholder="Allergies, occasion spéciale, demandes particulières…"></textarea></div>
+      <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;gap:.75rem">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Envoyer ma demande de réservation
+      </button>
+      <p class="form-footer">Nous vous répondrons dans les 24 heures. Réservation confirmée par email.</p>
+    </form>`;
+}
+</script>
+</body>
+</html>
